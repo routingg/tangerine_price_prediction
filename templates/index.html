@@ -1,37 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>감귤 test</title>
-</head>
-<body>
-    <form action="/" method="post">
-        <div>
-            <label>평균온도</label>
-            <input type="text" name="avg_temp">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="static/css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+    <title>농산물 가격예측</title>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar_logo">
+        <img src="/static/src/logo.png" />
+        <a href="#">감귤 가격예측</a>
+      </div>
+    </nav>
+    <div class="main-content">
+      <div class="left-side">
+        <div class="form-wrapper">
+          <form action="/predict" method="post">
+            <div>
+              <label>평균온도</label>
+              <input type="text" name="avg_temp" />
+            </div>
+            <div>
+              <label>최소온도</label>
+              <input type="text" name="min_temp" />
+            </div>
+            <div>
+              <label>최대온도</label>
+              <input type="text" name="max_temp" />
+            </div>
+            <div>
+              <label>강수량</label>
+              <input type="text" name="rain_fall" />
+            </div>
+            <button type="submit">예측하기</button>
+          </form>
+          <div class="result-wrapper">
+            {% if price %}
+            <div class="result-box">
+              <h4>예측된 감귤의 가격은 <span>{{ price|replace("[","")|replace("]","") }}원</span> 입니다.</h4>
+            </div>
+            {% endif %}
+          </div>
         </div>
-        <div>
-            <label>최소온도</label>
-            <input type="text" name="min_temp">
+      </div>
+      <div class="right-side">
+        <div class="line-chart-container">
+          <canvas id="myChart"></canvas>
         </div>
-        <div>
-            <label>최대온도</label>
-            <input type="text" name="max_temp">
-        </div>
-        <div>
-            <label>강수량</label>
-            <input type="text" name="rain_fall">
-        </div>
-        <button type="submit">예측하기</button>
-    </form>
-
-    <div>
-        <p>예측 결과 : </p>
-        {% if price %}
-            <h5>예측된 가격은 {{ price }}원 입니다.</h5>
-        {% endif %}
+      </div>
     </div>
-</body>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
 </html>
