@@ -2,6 +2,7 @@ import tensorflow.compat.v1 as tf
 from flask import Flask, render_template, request, jsonify
 import numpy as np
 import pymysql
+from config import DB_CONFIG
 
 tf.disable_v2_behavior()
 
@@ -53,10 +54,7 @@ def predict():
 
 @app.route('/data')
 def data():
-    connection = pymysql.connect(host='localhost',
-                                 user='root',
-                                 password='root',
-                                 db='tangerine_market_info')
+    connection = pymysql.connect(**DB_CONFIG)
 
     cursor = connection.cursor()
     cursor.execute('SELECT DATE_FORMAT(weather_data.date, "%Y%m") AS month, AVG(citrus_price_data.avgPrice) AS avg_monthly_price '
@@ -76,4 +74,3 @@ def data():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
