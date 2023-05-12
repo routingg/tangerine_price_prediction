@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="progress-bar.css">
+    <title>Progress Bar</title>
+</head>
+<body>
+    <button class="btn-progress" type="button">progress</button>
+    <button class="btn-initiate" type="button">initiate</button>
+    <div class="progress-bar">
+        <div class="progress-bar__bar"></div>
+    </div>
+    <script>
+        const btnProgressElem = document.querySelector('.btn-progress');
+        const btnInitiateElem = document.querySelector('.btn-initiate');
+        const progressBarElem = document.querySelector('.progress-bar__bar');
+        btnProgressElem.addEventListener('click', () => {
+            progressBarElem.classList.add('active');
+        })
+        btnInitiateElem.addEventListener('click', () => {
+            progressBarElem.classList.remove('active');
+        })
+    </script>
+</body>
+</html>
