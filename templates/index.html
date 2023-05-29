@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -7,52 +7,114 @@
     <link rel="stylesheet" href="static/css/style.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
-    <title>농산물 가격예측</title>
+    <title>탄귤리나 - 감귤 가격예측</title>
   </head>
   <body>
     <nav class="navbar">
       <div class="navbar_logo">
         <img src="/static/src/logo.png" />
-        <a href="#">감귤 가격예측</a>
+        <a href="/">감귤 가격예측</a>
       </div>
     </nav>
     <div class="main-content">
       <div class="left-side">
         <div class="form-wrapper">
-          <form action="/predict" method="post">
+          <div>
             <div>
               <label>평균온도</label>
-              <input type="text" name="avg_temp" />
+              <input type="text" id="avg_temp" />
             </div>
             <div>
               <label>최소온도</label>
-              <input type="text" name="min_temp" />
+              <input type="text" id="min_temp" />
             </div>
             <div>
               <label>최대온도</label>
-              <input type="text" name="max_temp" />
+              <input type="text" id="max_temp" />
             </div>
             <div>
               <label>강수량</label>
-              <input type="text" name="rain_fall" />
+              <input type="text" id="rain_fall" />
             </div>
-            <button type="submit">예측하기</button>
-          </form>
-          <div class="result-wrapper">
-            {% if price %}
-            <div class="result-box">
-              <h4>예측된 감귤의 가격은 <span>{{ price|replace("[","")|replace("]","") }}원</span> 입니다.</h4>
-            </div>
-            {% endif %}
+            <button type="button" onclick="predict()">예측하기</button>
+          </div>
+          <div class="result-wrapper" id="result-wrapper">
           </div>
         </div>
       </div>
       <div class="right-side">
+        <!-- 월별 감귤 평균가격 그래프 -->
         <div class="line-chart-container">
-          <canvas id="myChart"></canvas>
+          <canvas id="priceChart"></canvas>
         </div>
+        <!-- 강수량, 기온 그래프 -->
+        
       </div>
     </div>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+      function validateForm() {
+        var avg_temp = document.getElementById("avg_temp").value;
+        var min_temp = document.getElementById("min_temp").value;
+        var max_temp = document.getElementById("max_temp").value;
+        var rain_fall = document.getElementById("rain_fall").value;
+
+        if (
+          isNaN(avg_temp) ||
+          isNaN(min_temp) ||
+          isNaN(max_temp) ||
+          isNaN(rain_fall)
+        ) {
+          alert("모든 항목은 숫자만 입력해야 합니다.");
+          return false;
+        }
+
+        return {
+          avg_temp: avg_temp,
+          min_temp: min_temp,
+          max_temp: max_temp,
+          rain_fall: rain_fall,
+        };
+      }
+
+      function predict() {
+        var data = validateForm();
+
+        if (!data) {
+          return;
+        }
+
+        fetch("/predict", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              return response.json().then((err) => {
+                throw new Error(err.error);
+              });
+            }
+            return response.json();
+          })
+          .then((data) => {
+            if (data.price) {
+              var resultBox = document.getElementById("result-wrapper");
+              resultBox.innerHTML = `
+                <div class="result-box">
+                  <h4>
+                    예측된 감귤의 가격은 10개당
+                    <span>${data.price.toFixed(2)}원</span> 입니다.
+                  </h4>
+                </div>
+              `;
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+    </script>
   </body>
 </html>

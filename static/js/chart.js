@@ -1,7 +1,7 @@
 window.onload = function() {
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var months = [];
-    var avgPrices = [];
+    let ctx = document.getElementById('priceChart').getContext('2d');
+    let months = [];
+    let avgPrices = [];
 
     fetch('/data')
         .then(function(response) {
@@ -11,7 +11,7 @@ window.onload = function() {
             months = data.months;
             avgPrices = data.avgPrices;
 
-            var myChart = new Chart(ctx, {
+            let priceChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: months,

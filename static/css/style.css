@@ -47,7 +47,7 @@ body {
 }
 
 /* 예측 입력 폼 스타일 */
-form {
+.form-wrapper {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -56,22 +56,23 @@ form {
   box-sizing: border-box;
 }
 
-form input {
+.form-wrapper input {
   width: 100%;
   padding: 0.5rem;
   box-sizing: border-box;
 }
 
-form button {
+.form-wrapper button {
   width: 100%;
   padding: 0.5rem;
+  margin-top: 1rem; /* 추가한 부분 */
   background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
 }
 
-form button:hover {
+.form-wrapper button:hover {
   background-color: #45a049;
 }
 
@@ -142,5 +143,3 @@ form button:hover {
   padding: 1rem;
   margin-top: 1rem;
 }
-
-
