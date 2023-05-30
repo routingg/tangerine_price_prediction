@@ -1,5 +1,9 @@
 # tangerine_price_prediction
 
-'''
-pip install -r requirements.txt
-'''
+## 실행방법
+
+python3 server.py
+
+## 감귤가격 예측 모델
+
+## Flask Web App
