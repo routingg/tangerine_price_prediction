@@ -27,9 +27,8 @@ def predict():
         max_temp = float(data.get('max_temp', 0))
         rain_fall = float(data.get('rain_fall', 0))
 
-        if not all([avg_temp, min_temp, max_temp, rain_fall]):
+        if any(v is None for v in [avg_temp, min_temp, max_temp, rain_fall]):
             return jsonify({'error': 'No data provided or data is not in JSON format'}), 400
-
 
         # 입력된 파라미터를 배열 형태로 준비합니다.
         input_data = np.array([[avg_temp, min_temp, max_temp, rain_fall]], dtype=np.float32)
@@ -43,9 +42,8 @@ def predict():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
-@app.route('/data')
-def data():
+@app.route('/get-price-data')
+def getPriceData():
     connection = pymysql.connect(**DB_CONFIG)
 
     cursor = connection.cursor()
@@ -63,6 +61,27 @@ def data():
 
     connection.close()
     return jsonify(months=data['months'], avgPrices=data['avgPrices'])
+
+@app.route('/get-weather-data')
+def getWeatherData():
+    connection = pymysql.connect(**DB_CONFIG)
+
+    cursor = connection.cursor()
+    cursor.execute('SELECT DATE_FORMAT(weather_data.date, "%Y%m") AS month, AVG(weather_data.avgTemp) AS avg_monthly_temp, AVG(weather_data.rainFall) AS avg_monthly_rainfall '
+                   'FROM weather_data '
+                   'GROUP BY month '
+                   'ORDER BY month DESC LIMIT 12')
+    results = cursor.fetchall()
+
+    data = {
+        'months': [row[0] for row in results],
+        'avgTemps': [row[1] for row in results],
+        'avgRainfalls': [row[2] for row in results]
+    }
+
+    connection.close()
+    return jsonify(months=data['months'], avgTemps=data['avgTemps'], avgRainfalls=data['avgRainfalls'])
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -13,9 +13,12 @@
     <nav class="navbar">
       <div class="navbar_logo">
         <img src="/static/src/logo.png" />
-        <a href="/">감귤 가격예측</a>
+        <a href="/">Tangulina</a>
       </div>
     </nav>
+    <div class="introduction">
+      <p>감귤 가격 예측 사이트 탄귤리나 입니다.</p>
+    </div>
     <div class="main-content">
       <div class="left-side">
         <div class="form-wrapper">
@@ -38,25 +41,26 @@
             </div>
             <button type="button" onclick="predict()">예측하기</button>
           </div>
-          <div class="result-wrapper" id="result-wrapper">
-          </div>
+          <div class="result-wrapper" id="result-wrapper"></div>
         </div>
       </div>
       <div class="right-side">
+        <!-- 강수량, 기온 그래프 -->
+        <div class="weather-chart-container">
+          <canvas id="weatherChart"></canvas>
+        </div>
         <!-- 월별 감귤 평균가격 그래프 -->
-        <div class="line-chart-container">
+        <div class="price-chart-container">
           <canvas id="priceChart"></canvas>
         </div>
-        <!-- 강수량, 기온 그래프 -->
-        
       </div>
     </div>
     <script>
       function validateForm() {
-        var avg_temp = document.getElementById("avg_temp").value;
-        var min_temp = document.getElementById("min_temp").value;
-        var max_temp = document.getElementById("max_temp").value;
-        var rain_fall = document.getElementById("rain_fall").value;
+        let avg_temp = document.getElementById("avg_temp").value;
+        let min_temp = document.getElementById("min_temp").value;
+        let max_temp = document.getElementById("max_temp").value;
+        let rain_fall = document.getElementById("rain_fall").value;
 
         if (
           isNaN(avg_temp) ||
@@ -77,7 +81,7 @@
       }
 
       function predict() {
-        var data = validateForm();
+        let data = validateForm();
 
         if (!data) {
           return;
@@ -100,7 +104,7 @@
           })
           .then((data) => {
             if (data.price) {
-              var resultBox = document.getElementById("result-wrapper");
+              let resultBox = document.getElementById("result-wrapper");
               resultBox.innerHTML = `
                 <div class="result-box">
                   <h4>
