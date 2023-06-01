@@ -65,7 +65,6 @@ def getPriceData():
 @app.route('/get-weather-data')
 def getWeatherData():
     connection = pymysql.connect(**DB_CONFIG)
-
     cursor = connection.cursor()
     cursor.execute('SELECT DATE_FORMAT(weather_data.date, "%Y%m") AS month, AVG(weather_data.avgTemp) AS avg_monthly_temp, AVG(weather_data.rainFall) AS avg_monthly_rainfall '
                    'FROM weather_data '
@@ -81,7 +80,6 @@ def getWeatherData():
 
     connection.close()
     return jsonify(months=data['months'], avgTemps=data['avgTemps'], avgRainfalls=data['avgRainfalls'])
-
 
 if __name__ == '__main__':
     app.run(debug=True)
