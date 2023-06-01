@@ -5,17 +5,14 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from math import sqrt
 
-# 데이터 로드
 data = pd.read_csv('../data/price data.csv', sep=',')
+
 xy = np.array(data, dtype=np.float32)
 
-# 4개의 변인을 입력을 받습니다.
 x_data = xy[:, 1:-1]
-
-# 가격 값을 입력 받습니다.
 y_data = xy[:, [-1]]
 
-# 데이터를 훈련셋과 테스트셋으로 분리 (80% 훈련 데이터, 20% 테스트 데이터)
+# 80% 훈련 데이터, 20% 테스트 데이터
 x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.2, random_state=42)
 
 # Model 설정

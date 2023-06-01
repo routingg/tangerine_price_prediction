@@ -1,6 +1,21 @@
-/* 전역 스타일 */
+@font-face {
+  font-family: "Cafe24Ssurround";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "EF_jejudoldam";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-EF@1.0/EF_jejudoldam.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -29,6 +44,7 @@ body {
   color: white;
   text-decoration: none;
   font-size: 1.5rem;
+  font-family: "EF_jejudoldam";
 }
 
 .navbar_menu {
@@ -42,6 +58,7 @@ body {
 .introduction {
   padding: 1rem;
   text-align: center;
+  font-family: "Cafe24Ssurround";
   font-size: 1.5rem;
   background-color: #f8f9fa;
   margin-bottom: 1rem;
@@ -75,7 +92,7 @@ body {
 .form-wrapper button {
   width: 100%;
   padding: 0.5rem;
-  margin-top: 1rem; /* 추가한 부분 */
+  margin-top: 1rem;
   background-color: #4caf50;
   color: white;
   border: none;
@@ -102,8 +119,8 @@ body {
 }
 
 /* 반응형 스타일 */
+/* PC 버전 스타일 */
 @media screen and (min-width: 768px) {
-  /* PC 버전 스타일 */
   .main-content {
     display: flex;
     width: 100%;
@@ -131,8 +148,8 @@ body {
   }
 }
 
+/* 모바일 버전 스타일 */
 @media screen and (max-width: 767px) {
-  /* 모바일 버전 스타일 */
   .left-side,
   .right-side {
     width: 100%;
@@ -141,7 +158,7 @@ body {
   .price-chart-container,
   .weather-chart-container {
     width: 100%;
-    max-width: 100%; /* 수정된 부분 */
+    max-width: 100%;
     margin: 2rem 0;
   }
 }

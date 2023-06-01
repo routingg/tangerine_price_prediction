@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 
-# 데이터 불러오기
 price_data = pd.read_csv('price_data.csv', parse_dates=['date'], date_parser=lambda x: pd.to_datetime(x, format='%Y%m%d'))
 weather_data = pd.read_csv('weather_data.csv', parse_dates=['date'])
 
